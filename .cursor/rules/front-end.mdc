@@ -1,0 +1,28 @@
+---
+description: Front end
+globs: *.tsx
+alwaysApply: false
+---
+- Always try to use the available shacdn components instead of creating new components
+- Try to use the colors of the colors palette, primary and secondary 
+- Always group the import in "components", "utils", "types" or "services"
+- When creating new components or functions, always use named exports with arrow function syntax whenever possible:
+
+DO THIS:
+export const ComponentName = () => {
+  // implementation
+}
+
+export const functionName = () => {
+  // implementation
+}
+
+DON'T DO THIS:
+export default function ComponentName() {
+  // implementation
+}
+
+function functionName() {
+  // implementation
+}
+export default functionName;

@@ -1,31 +1,43 @@
 "use client";
 import { signIn, signOut, useSession } from "next-auth/react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
 
 export const SignIn = () => {
   const { data: session } = useSession();
-  if (session) {
-    return (
-      <>
-        Signed in as {session?.user?.name?.slice(0, 10)} <br />
-        <button
-          className="border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white px-4 py-2 rounded-lg mt-2 transition-colors"
-          onClick={() => signOut()}
-        >
-          Sign out
-        </button>
-      </>
-    );
-  } else {
-    return (
-      <>
-        Not signed in <br />
-        <button
-          className="border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white px-4 py-2 rounded-lg mt-2 transition-colors"
-          onClick={() => signIn()}
-        >
+  const router = useRouter();
+
+  useEffect(() => {
+    if (session) {
+      router.push("/home");
+    }
+  }, [session, router]);
+
+  return (
+    <div className="flex flex-col items-center space-y-4">
+      <Image
+        src="/crediteam_image.png"
+        alt="Crediteam Image"
+        width={300}
+        height={100}
+      />
+      <Image
+        src="/crediteam_logo.png"
+        alt="Crediteam Logo"
+        width={300}
+        height={100}
+      />
+      <p className="text-center max-w-2xl mt-4 text-gray-600">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim.
+      </p>
+      <div className="text-center">
+        <Button variant="default" onClick={() => signIn()}>
           Sign in
-        </button>
-      </>
-    );
-  }
+        </Button>
+      </div>
+    </div>
+  );
 };

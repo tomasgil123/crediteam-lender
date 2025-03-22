@@ -1,0 +1,6 @@
+---
+description: 
+globs: services/**/*
+alwaysApply: false
+---
+- When you create new interfaces and types keep in mind these file [supabase.ts](mdc:src/types/supabase.ts)

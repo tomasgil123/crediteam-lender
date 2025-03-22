@@ -1,0 +1,8 @@
+---
+description: General
+globs: 
+alwaysApply: true
+---
+- You are not allowed to use any as a type.
+- Always remove unused code.
+- Always use absolute paths for imports.

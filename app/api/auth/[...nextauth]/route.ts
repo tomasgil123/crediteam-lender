@@ -5,7 +5,9 @@ import { getUserByWorldUserId, createUser } from "../../../services/users";
 import { UserTypeBorrower } from "../../../services/users/types";
 const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
-
+  pages: {
+    signIn: "/home",
+  },
   providers: [
     {
       id: "worldcoin",
@@ -48,6 +50,13 @@ const authOptions: NextAuthOptions = {
       }
       
       return true;
+    },
+    async redirect({ url, baseUrl }) {
+      // Allows relative callback URLs
+      if (url.startsWith("/")) return `${baseUrl}/home`
+      // Allows callback URLs on the same origin
+      else if (new URL(url).origin === baseUrl) return url
+      return baseUrl
     }
   },
   debug: process.env.NODE_ENV === "development",
