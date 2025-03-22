@@ -6,18 +6,17 @@ import {
   MiniAppVerifyActionErrorPayload,
   IVerifyResponse,
 } from "@worldcoin/minikit-js";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 
 export type VerifyCommandInput = {
   action: string;
   signal?: string;
-  verification_level?: VerificationLevel; // Default: Orb
+  verification_level?: VerificationLevel;
 };
 
-const verifyPayload: VerifyCommandInput = {
-  action: "test-action", // This is your action ID from the Developer Portal
+const baseVerifyPayload: VerifyCommandInput = {
+  action: "login-device",
   signal: "",
-  verification_level: VerificationLevel.Orb, // Orb | Device
 };
 
 export const VerifyBlock = () => {
@@ -25,11 +24,20 @@ export const VerifyBlock = () => {
     MiniAppVerifyActionErrorPayload | IVerifyResponse | null
   >(null);
 
-  const handleVerify = useCallback(async () => {
+  const handleVerify = async (verificationLevel: VerificationLevel) => {
     if (!MiniKit.isInstalled()) {
       console.warn("Tried to invoke 'verify', but MiniKit is not installed.");
       return null;
     }
+
+    const verifyPayload = {
+      ...baseVerifyPayload,
+      action:
+        verificationLevel === VerificationLevel.Device
+          ? "login-device"
+          : "login-orb",
+      verification_level: verificationLevel,
+    };
 
     const { finalPayload } = await MiniKit.commandsAsync.verify(verifyPayload);
 
@@ -49,13 +57,12 @@ export const VerifyBlock = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        payload: finalPayload as ISuccessResult, // Parses only the fields we need to verify
+        payload: finalPayload as ISuccessResult,
         action: verifyPayload.action,
-        signal: verifyPayload.signal, // Optional
+        signal: verifyPayload.signal,
       }),
     });
 
-    // TODO: Handle Success!
     const verifyResponseJson = await verifyResponse.json();
 
     if (verifyResponseJson.status === 200) {
@@ -65,15 +72,33 @@ export const VerifyBlock = () => {
 
     setHandleVerifyResponse(verifyResponseJson);
     return verifyResponseJson;
-  }, []);
+  };
 
   return (
-    <div>
-      <h1>Verify Block</h1>
-      <button className="bg-green-500 p-4" onClick={handleVerify}>
-        Test Verify
-      </button>
-      <span>{JSON.stringify(handleVerifyResponse, null, 2)}</span>
+    <div className="flex flex-col gap-4 p-4">
+      <h1 className="text-2xl font-bold">Verify Block</h1>
+      <div className="flex gap-4">
+        <button
+          className="bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-lg"
+          onClick={() => handleVerify(VerificationLevel.Device)}
+        >
+          Verify with Device
+        </button>
+        <button
+          className="bg-green-500 hover:bg-green-600 text-white p-4 rounded-lg"
+          onClick={() => handleVerify(VerificationLevel.Orb)}
+        >
+          Verify with Orb
+        </button>
+      </div>
+      {handleVerifyResponse && (
+        <div className="mt-4 p-4 bg-gray-100 rounded-lg">
+          <h2 className="font-semibold mb-2">Verification Response:</h2>
+          <pre className="whitespace-pre-wrap">
+            {JSON.stringify(handleVerifyResponse, null, 2)}
+          </pre>
+        </div>
+      )}
     </div>
   );
 };

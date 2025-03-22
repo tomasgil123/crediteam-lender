@@ -31,3 +31,11 @@ To use the application, you'll need to:
 View docs: [Docs](https://docs.world.org/)
 
 [Developer Portal](https://developer.worldcoin.org/)
+
+## Supabase
+
+Update supabase types using:
+
+```bash
+npx supabase gen types typescript --project-id "jeofdnqzxrsjkpfsiche" --schema public > types/supabase.ts
+```

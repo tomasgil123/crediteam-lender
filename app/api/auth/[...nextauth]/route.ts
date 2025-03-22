@@ -1,5 +1,8 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
-
+// Types
+import { WorldUser } from "@/types/auth";
+import { getUserByWorldUserId, createUser } from "../../../services/users";
+import { UserTypeBorrower } from "../../../services/users/types";
 const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 
@@ -26,8 +29,26 @@ const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ user }) {
+      const worldUser = user as WorldUser;
+      
+      // Check if user exists
+      const existingUser = await getUserByWorldUserId(worldUser.id);
+      
+      if (!existingUser) {
+        // Create new user if doesn't exist
+        const newUser = await createUser({
+          user_type: UserTypeBorrower,
+          verification_level: worldUser.verificationLevel,
+          world_user_id: worldUser.id,
+        });
+
+        if (!newUser) {
+          return false; // Prevent sign in if user creation fails
+        }
+      }
+      
       return true;
-    },
+    }
   },
   debug: process.env.NODE_ENV === "development",
 };
