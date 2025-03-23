@@ -19,7 +19,7 @@ export default function ExplanationPage({
           </div>
 
           <h1 className="text-3xl font-bold tracking-tight text-primary">
-            GATHER YOUR TEAM OF WARRANTS
+            GATHER YOUR TEAM OF BACKERS
           </h1>
 
           <p className="text-xl text-gray-600">
@@ -37,7 +37,7 @@ export default function ExplanationPage({
         <div className="space-y-4">
           <p className="text-sm text-gray-500">
             Share this code with your friends. When they enter this code in
-            their app, they&apos;ll become warrants for your loan. Remember, you
+            their app, they&apos;ll become backers for your loan. Remember, you
             need at least 2 friends to proceed.
           </p>
 
