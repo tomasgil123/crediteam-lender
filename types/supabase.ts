@@ -9,6 +9,96 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      loan_backings: {
+        Row: {
+          backer_id: number
+          created_at: string | null
+          id: string
+          loan_id: string
+          status: string
+          updated_at: string | null
+        }
+        Insert: {
+          backer_id: number
+          created_at?: string | null
+          id?: string
+          loan_id: string
+          status?: string
+          updated_at?: string | null
+        }
+        Update: {
+          backer_id?: number
+          created_at?: string | null
+          id?: string
+          loan_id?: string
+          status?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "loan_backings_backer_id_fkey"
+            columns: ["backer_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loan_backings_loan_id_fkey"
+            columns: ["loan_id"]
+            isOneToOne: false
+            referencedRelation: "loans"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loan_backings_loan_id_fkey"
+            columns: ["loan_id"]
+            isOneToOne: false
+            referencedRelation: "loans_with_backer_count"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      loans: {
+        Row: {
+          amount: number
+          borrower_id: number
+          created_at: string | null
+          description: string | null
+          id: string
+          min_backers: number
+          status: string
+          updated_at: string | null
+        }
+        Insert: {
+          amount: number
+          borrower_id: number
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          min_backers: number
+          status?: string
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number
+          borrower_id?: number
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          min_backers?: number
+          status?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "loans_borrower_id_fkey"
+            columns: ["borrower_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       users: {
         Row: {
           created_at: string
@@ -35,7 +125,25 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      loans_with_backer_count: {
+        Row: {
+          amount: number | null
+          borrower_id: number | null
+          confirmed_backers: number | null
+          id: string | null
+          min_backers: number | null
+          status: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "loans_borrower_id_fkey"
+            columns: ["borrower_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       [_ in never]: never

@@ -1,5 +1,5 @@
 "use client";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -30,12 +30,14 @@ export const SignIn = () => {
         height={100}
       />
       <p className="text-center max-w-2xl mt-4 text-gray-600">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim.
+        Redefining credit to be a tool for change, not just debt.
       </p>
       <div className="text-center">
-        <Button variant="default" onClick={() => signIn()}>
-          Sign in
+        <Button
+          variant="default"
+          onClick={() => signIn("worldcoin", { callbackUrl: "/home" })}
+        >
+          Sign in with Worldcoin
         </Button>
       </div>
     </div>

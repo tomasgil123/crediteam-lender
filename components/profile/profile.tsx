@@ -1,8 +1,8 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { getUserByWorldUserId } from "@/app/services/users";
-import { User } from "@/app/services/users";
+import { getUserByWorldUserId } from "@/services/users";
+import { User } from "@/services/users";
 
 export const Profile = () => {
   const { data: session } = useSession();
