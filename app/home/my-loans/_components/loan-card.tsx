@@ -39,10 +39,12 @@ export const LoanCard = ({
                 <span className="font-medium capitalize">{status}</span>
               )}
             </p>
-            <p className="text-sm text-gray-600">
-              Backers: <span className="font-medium">{backerCount}</span> /{" "}
-              <span className="font-medium">{minBackers}</span>
-            </p>
+            {(backerCount > 0 || minBackers > 0) && (
+              <p className="text-sm text-gray-600">
+                Backers: <span className="font-medium">{backerCount}</span> /{" "}
+                <span className="font-medium">{minBackers}</span>
+              </p>
+            )}
           </div>
         </div>
         <Button

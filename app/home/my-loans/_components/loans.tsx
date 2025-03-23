@@ -120,8 +120,8 @@ export const Loans = () => {
                 id={loan.id}
                 amount={loan.amount}
                 status={loan.backingStatus}
-                backerCount={loan.backer_count}
-                minBackers={loan.min_backers}
+                backerCount={0}
+                minBackers={0}
               />
             ))}
           </div>
