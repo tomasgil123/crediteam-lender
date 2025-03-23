@@ -34,8 +34,11 @@ export const SignIn = () => {
         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim.
       </p>
       <div className="text-center">
-        <Button variant="default" onClick={() => signIn()}>
-          Sign in
+        <Button
+          variant="default"
+          onClick={() => signIn("worldcoin", { callbackUrl: "/home" })}
+        >
+          Sign in with Worldcoin
         </Button>
       </div>
     </div>
